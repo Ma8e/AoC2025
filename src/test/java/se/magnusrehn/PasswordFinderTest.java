@@ -8,6 +8,8 @@ class PasswordFinderTest {
 
     @Test
     void run() {
-        assertEquals(3, PasswordFinder.run("testInstructions.txt"));
+        PasswordFinder passwordFinder = new PasswordFinder("testInstructions.txt");
+        assertEquals(3, passwordFinder.password1a());
+        assertEquals(6, passwordFinder.password1b());
     }
 }

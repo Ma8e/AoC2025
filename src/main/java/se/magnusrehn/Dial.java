@@ -1,5 +1,7 @@
 package se.magnusrehn;
 
+import static se.magnusrehn.Direction.R;
+
 public class Dial {
 
     public record Position(Direction direction, int number) {
@@ -8,15 +10,40 @@ public class Dial {
         }
     }
 
-    public Position position = new Position(Direction.R, 50);
+    public Position position;
+    public long zeroPasses = 0;
+    public long zeroStops = 0;
 
-    public Position turn(Rotation rotation) {
+    public Dial() {
+        position = new Position(R, 50);
+    }
+
+    public Dial(Position p) {
+        this.position = p;
+    }
+
+    public Dial(int number) {
+        this(new Position(R, number));
+    }
+
+    public void turn(Rotation rotation) {
+        if (rotation.steps() == 0) {
+            return;
+        }
         int number = this.position.number + rotation.direction().multiplier * rotation.steps();
+        if (this.position.number == 0) {
+            if (number > 0) zeroPasses += number / 100;
+            else if (number < 0) zeroPasses += (-number / 100);
+        }
+        else {
+            if (number > 0) zeroPasses += number / 100;
+            else zeroPasses += (-number / 100) + 1;
+        }
         number %= 100;
-        while (number < 0) {
+        if (number < 0) {
             number += 100;
         }
+        if (number == 0) zeroStops++;
         this.position = new Position(rotation.direction(), number);
-        return this.position;
     }
 }
