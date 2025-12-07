@@ -31,14 +31,14 @@ public class Dial {
             return;
         }
         int number = this.position.number + rotation.direction().multiplier * rotation.steps();
-        if (this.position.number == 0) {
-            if (number > 0) zeroPasses += number / 100;
-            else if (number < 0) zeroPasses += (-number / 100);
+
+        if (number > 0) {
+            zeroPasses += number / 100;
         }
         else {
-            if (number > 0) zeroPasses += number / 100;
-            else zeroPasses += (-number / 100) + 1;
+            zeroPasses += (-number / 100) + (this.position.number == 0 ? 0 : 1);
         }
+
         number %= 100;
         if (number < 0) {
             number += 100;
