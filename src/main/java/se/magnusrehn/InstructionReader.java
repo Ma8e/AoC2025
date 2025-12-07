@@ -19,10 +19,6 @@ public class InstructionReader {
 
     // Load the file from the application's classpath for better portability
     public static Stream<Rotation> readInstructionsFromClasspath(String resourceName) {
-        InputStream resourceStream = InstructionReader.class.getClassLoader().getResourceAsStream(resourceName);
-        if (resourceStream == null) {
-            throw new RuntimeException("Resource not found: " + resourceName);
-        }
-        return readInstructionsFromStream(resourceStream);
+        return readInstructionsFromStream(Reader.resourceStream(resourceName));
     }
 }
