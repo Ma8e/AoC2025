@@ -17,7 +17,12 @@ public class Main {
         System.out.println(InvalidIds.invalids2Sum(productIdRanges));
     }
 
-    public static void main(String[] args) throws IOException {
-        day2();
+    private static void day3() {
+        Batteries batteries = new Batteries("batteries.txt");
+        System.out.println(batteries.maxTotalJoltage());
+    }
+
+    public static void main(String[] args) {
+        day3();
     }
 }
