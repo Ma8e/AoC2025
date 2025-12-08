@@ -20,6 +20,8 @@ public class Main {
     private static void day3() {
         Batteries batteries = new Batteries("batteries.txt");
         System.out.println(batteries.maxTotalJoltage());
+        System.out.println(batteries.maxTotalBigJoltage());
+
     }
 
     public static void main(String[] args) {
