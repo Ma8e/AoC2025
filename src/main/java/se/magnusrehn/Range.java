@@ -1,7 +1,7 @@
 package se.magnusrehn;
 
-public record ProductIdRange(long start, long end) {
-    public ProductIdRange {
+public record Range(long start, long end) {
+    public Range {
         assert start <= end;
     }
 
