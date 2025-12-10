@@ -27,8 +27,10 @@ public class Main {
     private static void day4() {
         PaperRolls paperRolls = new PaperRolls("rollsOfPaper.txt");
         System.out.println(paperRolls.numberOfAccessibleRolls());
+        System.out.println(paperRolls.maxTotalRemoved());
     }
 
-    public static void main(String[] args) { day4();
+    public static void main(String[] args) {
+        day4();
     }
 }

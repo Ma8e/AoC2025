@@ -60,8 +60,14 @@ class PaperRollsTest {
 
     @Test
     void removeAccessible() {
-        PaperRolls paperRolls = new PaperRolls("testPaperRolls.txt");
-        assertEquals(13, paperRolls.removeAccessible());
+        PaperRolls newPaperRolls = paperRolls.removeAccessible();
         paperRolls.printAccessibleSites();
+        newPaperRolls.printMap();
+        assertEquals(13, newPaperRolls.removed);
+    }
+
+    @Test
+    void removeMaximumAccessible() {
+        assertEquals(43, paperRolls.maxTotalRemoved());
     }
 }

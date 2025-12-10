@@ -2,7 +2,6 @@ package se.magnusrehn;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,6 +13,7 @@ public class PaperRolls {
     }
 
     public List<List<String>> map;
+    public final int removed;
 
     public PaperRolls(String resourceName) {
         try (var reader = Reader.reader(resourceName)) {
@@ -23,26 +23,28 @@ public class PaperRolls {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        removed = 0;
     }
 
-    public PaperRolls(@NotNull String[][] map) {
-        this.map = Arrays.stream(map).map(Arrays::asList).toList();
+    public PaperRolls(@NotNull List<List<String>> map, int removed) {
+        this.map = map;
+        this.removed = removed;
     }
 
-    public int removeAccessible() {
-        List<List<String>> newMap;
-        AtomicInteger removed = new AtomicInteger();
-        forEachSite((row, col) -> {
-            if (isAccessible(row, col)) {
+    public PaperRolls removeAccessible() {
+        AtomicInteger removed = new AtomicInteger(0);
 
-                map.get(row).set(col, ".");
-                removed.getAndIncrement();
-            }
-            else {
-                map.get(row).set(col, "@");
-            }
-        });
-        return removed.get();
+        List<List<String>> newMap = IntStream.range(0, map.size())
+                .mapToObj(row ->
+                        IntStream.range(0, map.get(row).size()).mapToObj(col -> {
+                            if (map.get(row).get(col).equals("@") && (isAccessible(row, col))) {
+                                removed.getAndIncrement();
+                                return ".";
+                            }
+                            return map.get(row).get(col);
+                        }).toList()).toList();
+
+        return new PaperRolls(newMap, removed.get());
     }
 
     public String getValue(int row, int col) {
@@ -78,14 +80,6 @@ public class PaperRolls {
         return getNeighbourCount(row, col) < 4 && getValue(row, col).equals("@");
     }
 
-    public Boolean[][] isAccessible() {
-        Boolean[][] result = new Boolean[map.size()][map.getFirst().size()];
-        forEachSite((row, col) ->
-                result[row][col] = isAccessible(row, col)
-        );
-        return result;
-    }
-
     public void printAccessibleSites() {
         forEachSite((row, col) -> {
             if (isAccessible(row, col)) System.out.print("X ");
@@ -113,9 +107,19 @@ public class PaperRolls {
     public void printMap() {
         map.forEach(
                 l -> {
-                    l.forEach(c -> System.out.print(c));
+                    l.forEach(c -> System.out.print(c + " "));
                     System.out.println();
                 }
         );
+    }
+
+    public int maxTotalRemoved() {
+        int totalRemoved = 0;
+        PaperRolls paperRolls = this;
+        while (paperRolls.numberOfAccessibleRolls() > 0) {
+            paperRolls = paperRolls.removeAccessible();
+            totalRemoved += paperRolls.removed;
+        }
+        return totalRemoved;
     }
 }
