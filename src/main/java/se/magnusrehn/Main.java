@@ -30,7 +30,12 @@ public class Main {
         System.out.println(paperRolls.maxTotalRemoved());
     }
 
+    private static void day5() {
+        FreshIngredients freshIngredients = new FreshIngredients("ingredients.txt");
+        System.out.println(freshIngredients.countFresh());
+    }
+
     public static void main(String[] args) {
-        day4();
+        day5();
     }
 }

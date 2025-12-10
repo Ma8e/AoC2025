@@ -17,6 +17,11 @@ class FreshIngredientsTest {
                         new Range(16, 20),
                         new Range(12, 18)
                 ), freshIngredients.freshRanges);
-        assertEquals(List.of(1, 5, 8, 11, 17, 32), freshIngredients.ingredientIds);
+        assertEquals(List.of(1L, 5L, 8L, 11L, 17L, 32L), freshIngredients.ingredientIds);
+    }
+
+    @Test
+    public void freshCount() {
+        assertEquals(3, freshIngredients.countFresh());
     }
 }

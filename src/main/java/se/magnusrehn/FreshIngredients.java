@@ -6,18 +6,18 @@ import java.util.List;
 public class FreshIngredients {
 
     final List<Range> freshRanges;
-    final List<Integer> ingredientIds;
+    final List<Long> ingredientIds;
 
     public FreshIngredients(String resourceName) {
 
         BufferedReader reader = Reader.reader(resourceName);
 
         freshRanges = reader.lines()
-                .takeWhile(s->s.length() > 0)
+                .takeWhile(s->!s.isEmpty())
                 .map(FreshIngredients::freshRange)
                 .toList();
 
-        ingredientIds = reader.lines().mapToInt(Integer::parseInt).boxed().toList();
+        ingredientIds = reader.lines().mapToLong(Long::parseLong).boxed().toList();
 
     }
 
@@ -26,7 +26,11 @@ public class FreshIngredients {
         return new Range(Long.parseLong(l[0]), Long.parseLong(l[1]));
     }
 
-    public Boolean isFresh(int ingredientId) {
-        return false;
+    public Boolean isFresh(Long ingredientId) {
+        return freshRanges.stream().anyMatch(r -> r.inRange(ingredientId));
+    }
+
+    public long countFresh() {
+        return ingredientIds.stream().filter(this::isFresh).count();
     }
 }
