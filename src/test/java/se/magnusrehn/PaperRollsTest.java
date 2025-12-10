@@ -13,7 +13,6 @@ class PaperRollsTest {
     void paperRollsHaveTheRightSize() {
         assertEquals(10, paperRolls.map.size());
         assertEquals(10, paperRolls.map.getFirst().size());
-        paperRolls.map.forEach(System.out::println);
     }
 
     @ParameterizedTest
@@ -42,5 +41,27 @@ class PaperRollsTest {
     void numberOfAccessibleRolls() {
         paperRolls.printCount();
         assertEquals(13, paperRolls.numberOfAccessibleRolls());
+    }
+
+    @Test
+    void printMap() {
+        paperRolls.printMap();
+    }
+
+    @Test
+    void printCount() {
+        paperRolls.printCount();
+    }
+
+    @Test
+    void printAccessible() {
+        paperRolls.printAccessibleSites();
+    }
+
+    @Test
+    void removeAccessible() {
+        PaperRolls paperRolls = new PaperRolls("testPaperRolls.txt");
+        assertEquals(13, paperRolls.removeAccessible());
+        paperRolls.printAccessibleSites();
     }
 }

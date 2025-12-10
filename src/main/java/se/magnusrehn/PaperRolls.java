@@ -1,14 +1,19 @@
 package se.magnusrehn;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.stream.IntStream;
 
 public class PaperRolls {
     public record Position(int row, int col) {
     }
 
-    final public List<List<String>> map;
+    public List<List<String>> map;
 
     public PaperRolls(String resourceName) {
         try (var reader = Reader.reader(resourceName)) {
@@ -18,6 +23,26 @@ public class PaperRolls {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public PaperRolls(@NotNull String[][] map) {
+        this.map = Arrays.stream(map).map(Arrays::asList).toList();
+    }
+
+    public int removeAccessible() {
+        List<List<String>> newMap;
+        AtomicInteger removed = new AtomicInteger();
+        forEachSite((row, col) -> {
+            if (isAccessible(row, col)) {
+
+                map.get(row).set(col, ".");
+                removed.getAndIncrement();
+            }
+            else {
+                map.get(row).set(col, "@");
+            }
+        });
+        return removed.get();
     }
 
     public String getValue(int row, int col) {
@@ -45,19 +70,52 @@ public class PaperRolls {
     public long numberOfAccessibleRolls() {
         return IntStream.range(0, map.size())
                 .mapToLong(row -> IntStream.range(0, map.get(row).size())
-                        .filter(col -> getNeighbourCount(row, col) < 4 && getValue(row, col).equals("@")).count()
+                        .filter(col -> isAccessible(row, col)).count()
                 ).sum();
     }
 
+    private Boolean isAccessible(int row, int col) {
+        return getNeighbourCount(row, col) < 4 && getValue(row, col).equals("@");
+    }
+
+    public Boolean[][] isAccessible() {
+        Boolean[][] result = new Boolean[map.size()][map.getFirst().size()];
+        forEachSite((row, col) ->
+                result[row][col] = isAccessible(row, col)
+        );
+        return result;
+    }
+
+    public void printAccessibleSites() {
+        forEachSite((row, col) -> {
+            if (isAccessible(row, col)) System.out.print("X ");
+            else System.out.print(map.get(row).get(col) + " ");
+            if (col == map.get(row).size() - 1) System.out.println();
+        });
+    }
+
+    public void forEachSite(BiConsumer<Integer, Integer> action) {
+        for (int row = 0; row < map.size(); row++)
+            for (int col = 0; col < map.get(row).size(); col++)
+                action.accept(row, col);
+    }
+
     public void printCount() {
-        for (int row = 0; row < map.size(); row++) {
-            for (int col = 0; col < map.get(row).size(); col++) {
-                if (getValue(row, col).equals("@"))
-                    System.out.print(getNeighbourCount(row, col) + " ");
-                else
-                    System.out.print(". ");
-            }
-            System.out.println();
-        }
+        forEachSite((row, col) -> {
+            if (getValue(row, col).equals("@"))
+                System.out.print(getNeighbourCount(row, col) + " ");
+            else
+                System.out.print(". ");
+            if (col == map.get(row).size() - 1) System.out.println();
+        });
+    }
+
+    public void printMap() {
+        map.forEach(
+                l -> {
+                    l.forEach(c -> System.out.print(c));
+                    System.out.println();
+                }
+        );
     }
 }
