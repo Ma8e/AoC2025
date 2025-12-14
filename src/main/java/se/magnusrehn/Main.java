@@ -33,6 +33,7 @@ public class Main {
     private static void day5() {
         FreshIngredients freshIngredients = new FreshIngredients("ingredients.txt");
         System.out.println(freshIngredients.countFresh());
+        System.out.println(freshIngredients.countAllFresh());
     }
 
     public static void main(String[] args) {
