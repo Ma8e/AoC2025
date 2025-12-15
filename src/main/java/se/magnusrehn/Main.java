@@ -36,7 +36,12 @@ public class Main {
         System.out.println(freshIngredients.countAllFresh());
     }
 
+    private static void day6() {
+        Homework homework = new Homework("homework.txt", 4);
+        System.out.println(homework.sumOfAll());
+    }
+
     public static void main(String[] args) {
-        day5();
+        day6();
     }
 }
