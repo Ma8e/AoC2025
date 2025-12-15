@@ -23,7 +23,10 @@ public class Homework2 {
     }
 
 
+
     static <T> List<List<T>> pivot(List<List<T>> p) {
+        Long maxLength =
+        p.stream().
         return IntStream.range(0, p.getFirst().size()).mapToObj(i -> p.stream().map(l -> l.get(i)).toList()).toList();
     }
 
