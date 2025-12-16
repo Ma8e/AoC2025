@@ -39,6 +39,7 @@ public class Main {
     private static void day6() {
         Homework homework = new Homework("homework.txt", 4);
         System.out.println(homework.sumOfAll());
+        System.out.println(homework.sumOfAll2());
     }
 
     public static void main(String[] args) {

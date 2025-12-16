@@ -14,7 +14,10 @@ class HomeworkTest {
         Homework homework = new Homework("testHomework.txt", 3);
 
         assertEquals(List.of(33210L, 490L, 4243455L, 401L), homework.solveAll());
+        assertEquals(List.of(1058L, 3253600L, 625L, 8544L).reversed(), homework.solveAll2());
+
         assertEquals(4277556, homework.sumOfAll());
+        assertEquals(3263827, homework.sumOfAll2());
     }
 
     @Test
@@ -35,6 +38,10 @@ class HomeworkTest {
     }
 
     @Test
+    void solveAll2() {
+    }
+
+    @Test
     void printHomeWork() {
         Homework homework = new Homework("testHomework.txt", 3);
         homework.printHomework();
@@ -43,6 +50,13 @@ class HomeworkTest {
     @Test
     void padTo() {
         assertEquals(List.of(1, 2, 3, 0, 0), Homework.padTo(List.of(1, 2, 3), 5, 0));
+    }
+
+    @Test
+    void group() {
+        List<List<String>> arg = List.of(List.of("1", "2", " ", "5"), List.of("3", " ", " ", "6"));
+        List<List<Long>> expected = List.of(List.of(13L, 2L), List.of(56L));
+        assertEquals(expected, Homework.group(arg));
     }
 
 }
