@@ -42,7 +42,12 @@ public class Main {
         System.out.println(homework.sumOfAll2());
     }
 
+    private static void day7() {
+        Tachyon tachyon = new Tachyon("tachyonManyfold.txt");
+        System.out.println(tachyon.manyfoldSplitCount());
+    }
+
     public static void main(String[] args) {
-        day6();
+        day7();
     }
 }
