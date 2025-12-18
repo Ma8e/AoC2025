@@ -1,5 +1,6 @@
 package se.magnusrehn;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,6 +14,7 @@ class TachyonTest {
     Tachyon tachyon = new Tachyon("testTachyonManifold.txt");
 
     @Test
+    @Disabled
     void manifold() {
         tachyon.printManyfold();
     }

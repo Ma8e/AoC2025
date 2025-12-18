@@ -2,6 +2,7 @@ package se.magnusrehn;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,8 @@ public class Tachyon {
 
     public final List<List<Character>> manyfold;
     public Integer splitCount = 0;
+
+    final private HashMap<TimelineCountArgument, Long> timelineCountCache = new HashMap<>();
 
     public Tachyon(String resourceName) {
         try (BufferedReader reader = Reader.reader(resourceName)) {
@@ -53,30 +56,42 @@ public class Tachyon {
         return splitCount;
     }
 
-    public int quantumTachyonTimelineCount() {
-
-        return 1 + quantumTachyonTimelineCountRecursion(
-                manyfold.getFirst().indexOf('S'), manyfold.subList(1, manyfold.size()));
+    public record TimelineCountArgument(int pos, int manyfoldRowNumber) {
     }
 
-    public int quantumTachyonTimelineCountRecursion(Integer pos, List<List<Character>> manyfold) {
-        if (manyfold.size() == 0) return 0;
-        assert pos >= 0;
-        assert pos < manyfold.getFirst().size();
+    public long quantumTachyonTimelineCount() {
 
-        if (manyfold.getFirst().get(pos) == '.')
-            return quantumTachyonTimelineCountRecursion(pos, manyfold.subList(1, manyfold.size()));
-        else if (manyfold.getFirst().get(pos) == '^')
-            return 1 + quantumTachyonTimelineCountRecursion(pos + 1, manyfold.subList(1, manyfold.size()))
-                    + quantumTachyonTimelineCountRecursion(pos - 1, manyfold.subList(1, manyfold.size()));
+        return 1L + quantumTachyonTimelineCountRecursion(
+                new TimelineCountArgument(
+                        manyfold.getFirst().indexOf('S'), 1));
+    }
+
+    public long quantumTachyonTimelineCountRecursion(TimelineCountArgument a) {
+
+        if (timelineCountCache.containsKey(a)) return timelineCountCache.get(a);
+
+        long result;
+        assert a.pos >= 0;
+        assert a.pos < manyfold.getFirst().size();
+
+        if (a.manyfoldRowNumber > manyfold.size()-1)
+            result = 0L;
+        else if (manyfold.get(a.manyfoldRowNumber()).get(a.pos) == '.')
+            result =  quantumTachyonTimelineCountRecursion(new TimelineCountArgument(a.pos, a.manyfoldRowNumber + 1));
+        else if (manyfold.get(a.manyfoldRowNumber()).get(a.pos) == '^')
+            result =  1L + quantumTachyonTimelineCountRecursion(new TimelineCountArgument(a.pos + 1, a.manyfoldRowNumber + 1))
+                    + quantumTachyonTimelineCountRecursion(new TimelineCountArgument(a.pos - 1, a.manyfoldRowNumber + 1));
         else
-            throw new RuntimeException("Invalid character at position " + pos);
-    }
+            throw new RuntimeException("Invalid character at position " + a.pos);
 
-    public void printManyfold() {
-        manyfold.forEach(l -> {
-            l.forEach(System.out::print);
-            System.out.println();
-        });
-    }
+        timelineCountCache.put(a, result);
+        return result;
+}
+
+public void printManyfold() {
+    manyfold.forEach(l -> {
+        l.forEach(System.out::print);
+        System.out.println();
+    });
+}
 }
