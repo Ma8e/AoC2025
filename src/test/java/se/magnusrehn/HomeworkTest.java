@@ -1,5 +1,6 @@
 package se.magnusrehn;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -37,11 +38,9 @@ class HomeworkTest {
         );
     }
 
-    @Test
-    void solveAll2() {
-    }
 
     @Test
+    @Disabled
     void printHomeWork() {
         Homework homework = new Homework("testHomework.txt", 3);
         homework.printHomework();

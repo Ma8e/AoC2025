@@ -1,5 +1,6 @@
 package se.magnusrehn;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -39,21 +40,23 @@ class PaperRollsTest {
 
     @Test
     void numberOfAccessibleRolls() {
-        paperRolls.printCount();
         assertEquals(13, paperRolls.numberOfAccessibleRolls());
     }
 
     @Test
+    @Disabled
     void printMap() {
         paperRolls.printMap();
     }
 
     @Test
+    @Disabled
     void printCount() {
         paperRolls.printCount();
     }
 
     @Test
+    @Disabled
     void printAccessible() {
         paperRolls.printAccessibleSites();
     }
@@ -61,8 +64,6 @@ class PaperRollsTest {
     @Test
     void removeAccessible() {
         PaperRolls newPaperRolls = paperRolls.removeAccessible();
-        paperRolls.printAccessibleSites();
-        newPaperRolls.printMap();
         assertEquals(13, newPaperRolls.removed);
     }
 
