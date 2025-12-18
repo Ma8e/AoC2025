@@ -45,6 +45,7 @@ public class Main {
     private static void day7() {
         Tachyon tachyon = new Tachyon("tachyonManyfold.txt");
         System.out.println(tachyon.manyfoldSplitCount());
+        System.out.println(tachyon.quantumTachyonTimelineCount());
     }
 
     public static void main(String[] args) {

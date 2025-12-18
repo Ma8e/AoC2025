@@ -36,8 +36,7 @@ public class Tachyon {
                 newTachyons.add(t + 1);
                 newTachyons.add(t - 1);
                 splitCount++;
-            }
-            else {
+            } else {
                 newTachyons.add(t);
             }
         });
@@ -48,10 +47,30 @@ public class Tachyon {
     public int manyfoldSplitCount() {
         splitCount = 0;
         Set<Integer> tachyons = new HashSet<>();
-        for (var manifoldRow: manyfold) {
+        for (var manifoldRow : manyfold) {
             tachyons = interact(tachyons, manifoldRow);
         }
         return splitCount;
+    }
+
+    public int quantumTachyonTimelineCount() {
+
+        return 1 + quantumTachyonTimelineCountRecursion(
+                manyfold.getFirst().indexOf('S'), manyfold.subList(1, manyfold.size()));
+    }
+
+    public int quantumTachyonTimelineCountRecursion(Integer pos, List<List<Character>> manyfold) {
+        if (manyfold.size() == 0) return 0;
+        assert pos >= 0;
+        assert pos < manyfold.getFirst().size();
+
+        if (manyfold.getFirst().get(pos) == '.')
+            return quantumTachyonTimelineCountRecursion(pos, manyfold.subList(1, manyfold.size()));
+        else if (manyfold.getFirst().get(pos) == '^')
+            return 1 + quantumTachyonTimelineCountRecursion(pos + 1, manyfold.subList(1, manyfold.size()))
+                    + quantumTachyonTimelineCountRecursion(pos - 1, manyfold.subList(1, manyfold.size()));
+        else
+            throw new RuntimeException("Invalid character at position " + pos);
     }
 
     public void printManyfold() {

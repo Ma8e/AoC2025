@@ -34,4 +34,10 @@ class TachyonTest {
     void testSplitCount() {
         assertEquals(21, tachyon.manyfoldSplitCount());
     }
+
+    @Test
+    void quantumTachyonTimelineCount() {
+        assertEquals(40, tachyon.quantumTachyonTimelineCount());
+    }
+
 }
