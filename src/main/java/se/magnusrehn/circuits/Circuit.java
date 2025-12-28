@@ -6,18 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Circuit {
-    final List<JunctionBox> junctionBoxes = new ArrayList<>();
+    List<JunctionBox> junctionBoxes = new ArrayList<>();
 
     public Circuit(@NotNull JunctionBox junctionBox) {
         junctionBoxes.add(junctionBox);
     }
 
     public Circuit(int x, int y, int z) {
-        new Circuit(new JunctionBox(x, y, z));
+        this(new JunctionBox(x, y, z));
     }
 
     public void addCircuit(@NotNull Circuit other) {
         junctionBoxes.addAll(other.junctionBoxes);
+        other.junctionBoxes.forEach(j -> j.circuit = this);
     }
 
     public double distanceTo(@NotNull JunctionBox junctionBox) {
@@ -33,6 +34,10 @@ public class Circuit {
     }
 
     public int size() {
-        return junctionBoxes.size();
+        return junctionBoxes == null ? 0 : junctionBoxes.size();
+    }
+
+    public boolean contains(JunctionBox j) {
+        return junctionBoxes.contains(j);
     }
 }

@@ -18,7 +18,7 @@ public class CircuitsTest {
 
     @Test
     void allCircuitsAreRead() {
-        assertEquals(20, circuits.circuits.size());
+        assertEquals(20, circuits.circuits().size());
     }
 
     @ParameterizedTest
@@ -29,11 +29,22 @@ public class CircuitsTest {
     })
     void someSamplesAreCorrect(int junctionBoxNo, int x, int y, int z) {
         assertEquals(new JunctionBox(x, y, z),
-                circuits.circuits.get(junctionBoxNo).junctionBoxes.getFirst());
+                circuits.circuits().get(junctionBoxNo).junctionBoxes.getFirst());
     }
 
     @Test
     void largestCircuitsSizesMultipliedTest() {
-        assertEquals(40, circuits.largestCircuitsSizesMultiplied(3));
+        assertEquals(40, circuits.largestCircuitsSizesMultiplied(10));
+    }
+
+    @Test
+    void distancesTest() {
+        Circuits.distances(circuits.junctionBoxes).forEach(System.out::println);
+    }
+
+    @Test
+    void pairClosestTest() {
+        circuits.pairClosest(10);
+        circuits.circuits().forEach(c -> System.out.println(c == null ? 0 : c.size()));
     }
 }

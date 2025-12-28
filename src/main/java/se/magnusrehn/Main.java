@@ -1,6 +1,9 @@
 package se.magnusrehn;
 
 
+import se.magnusrehn.circuits.Circuit;
+import se.magnusrehn.circuits.Circuits;
+
 import java.io.IOException;
 
 public class Main {
@@ -48,7 +51,12 @@ public class Main {
         System.out.println(tachyon.quantumTachyonTimelineCount());
     }
 
+    private static void day8() {
+        Circuits circuits = new Circuits("junctionBoxes.txt");
+        System.out.println(circuits.largestCircuitsSizesMultiplied(1000));
+    }
+
     public static void main(String[] args) {
-        day7();
+        day8();
     }
 }
