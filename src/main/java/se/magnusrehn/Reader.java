@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class Reader {
 
     public static InputStream resourceStream(String resourceName) {
-        InputStream resourceStream = InstructionReader.class.getClassLoader().getResourceAsStream(resourceName);
+        InputStream resourceStream = Reader.class.getClassLoader().getResourceAsStream(resourceName);
         if (resourceStream == null) {
             throw new RuntimeException("Resource not found: " + resourceName);
         }
