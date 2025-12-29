@@ -3,8 +3,12 @@ package se.magnusrehn;
 
 import se.magnusrehn.circuits.Circuit;
 import se.magnusrehn.circuits.Circuits;
+import se.magnusrehn.tiles.RectangleFinder;
+import se.magnusrehn.tiles.Tile;
+import se.magnusrehn.tiles.TileReader;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -58,7 +62,12 @@ public class Main {
         System.out.println(circuits2.pairUntilOneCircuit());
     }
 
+    private static void day9() {
+        List<Tile> tiles = TileReader.readTilesFromClasspath("tiles.txt");
+        System.out.println(RectangleFinder.areaOfMaxRectangle(tiles));
+    }
+
     public static void main(String[] args) {
-        day8();
+        day9();
     }
 }
