@@ -1,5 +1,6 @@
 package se.magnusrehn.circuits;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -38,13 +39,15 @@ public class CircuitsTest {
     }
 
     @Test
-    void distancesTest() {
-        Circuits.distances(circuits.junctionBoxes).forEach(System.out::println);
-    }
-
-    @Test
+    @Disabled
     void pairClosestTest() {
         circuits.pairClosest(10);
         circuits.circuits().forEach(c -> System.out.println(c == null ? 0 : c.size()));
+    }
+
+    @Test
+    void pairUntilOneCircuitTest() {
+        Circuits circuits = new Circuits("testJunctionBoxes.txt");
+        assertEquals(25272, circuits.pairUntilOneCircuit());
     }
 }

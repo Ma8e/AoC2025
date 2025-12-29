@@ -54,6 +54,8 @@ public class Main {
     private static void day8() {
         Circuits circuits = new Circuits("junctionBoxes.txt");
         System.out.println(circuits.largestCircuitsSizesMultiplied(1000));
+        Circuits circuits2 = new Circuits("junctionBoxes.txt");
+        System.out.println(circuits2.pairUntilOneCircuit());
     }
 
     public static void main(String[] args) {
